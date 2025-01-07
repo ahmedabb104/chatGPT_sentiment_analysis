@@ -1,5 +1,5 @@
-### ChatGPT Sentiment Analysis
+# ChatGPT Sentiment Analysis
 
 ## Power BI Dashboard: 
-- insert link
+- In progress
 - All other visualizations are in the docs folder
