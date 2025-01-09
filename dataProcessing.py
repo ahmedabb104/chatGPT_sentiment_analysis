@@ -9,18 +9,16 @@ def cleanComment(comment):
 def cleanData(path):
     df = pd.read_csv(path)
     df = df.drop(columns=['Name', 'Review ID'])
-    # Change date to monthYear format
-    df['Date'] = pd.to_datetime(df['Date']).dt.strftime('%m%Y')
+    # Change date to day number format
+    df['Date'] = pd.to_datetime(df['Date'], format="%Y-%m-%d %H:%M:%S")
+    df['Day Number'] = (df['Date'] - df['Date'].min()).dt.days + 1
     # Clean emojis from comments
     df['Comment'] = df['Comment'].apply(cleanComment)
-    # print(df.head())
-    # print(df.shape)  # 100000, 6
     return df
 
 
 def main():
-    data = cleanData('data/GPT_reviews.csv')
-
+    return
 
 if __name__=='__main__':
     main()
