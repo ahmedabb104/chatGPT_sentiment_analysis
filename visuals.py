@@ -18,7 +18,7 @@ def main():
     sns.countplot(x="Sentiment Class", data=df, ax=axes[0], order=["Very Negative", "Negative", "Neutral", "Positive", "Very Positive"])
     sns.countplot(x="Rating", data=df, ax=axes[1])
     plt.savefig("docs/sentimentVsRating.svg", format="svg")
-    plt.show()
+    # plt.show()
 
     # Comparing Sentiment to app version, contingency table
     crosstab = pd.crosstab(df["Sentiment Class"], df["App Version"])
@@ -30,6 +30,18 @@ def main():
     # Mean number of thumbs up for each sentiment class of reviews
     meanThumbs = df.groupby(['Sentiment Class'])["Thumbs Up"].agg(["mean"]).sort_values(by="mean", ascending=False)
     print(tabulate(meanThumbs, headers = 'keys', tablefmt = 'pretty'))
+
+    # Box plots to visualize distribution statistics of each snetiment
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(10, 7))
+    numerical = ["Rating", "Day Number"]
+    for idx, feat in enumerate(numerical):
+        ax = axes[idx]
+        sns.boxplot(x="Sentiment Class", y=feat, data=df, ax=ax)
+        ax.set_xlabel("")
+        ax.set_ylabel(feat)
+    fig.tight_layout()
+    plt.savefig("docs/sentimentBoxPlot.svg", format="svg")
+    # plt.show()
 
     # Time-series plot of very neg + neg percentage, very pos + pos percentage over day intervals
     negativeReviews = df[df["Sentiment Class"].isin(["Negative", "Very Negative"])]
@@ -52,7 +64,7 @@ def main():
     plt.legend()
     plt.tight_layout()
     plt.savefig("docs/timeSeriesSentiment.svg", format="svg")
-    plt.show()
+    # plt.show()
 
     return
 
