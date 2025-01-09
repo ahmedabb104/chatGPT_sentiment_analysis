@@ -23,8 +23,9 @@ def main():
     # Comparing Sentiment to app version, contingency table
     crosstab = pd.crosstab(df["Sentiment Class"], df["App Version"])
     # Filter columns (App Versions) where total reviews are greater than 100
-    filtered_crosstab = crosstab.loc[:, crosstab.sum() > 100]
-    print(tabulate(filtered_crosstab.T, headers = 'keys', tablefmt = 'pretty'))
+    filteredCrosstab = crosstab.loc[:, crosstab.sum() > 100]
+    percentagesCrosstab = round(filteredCrosstab.div(filteredCrosstab.sum(axis=0), axis=1) * 100, 2)
+    print(tabulate(percentagesCrosstab.T, headers = 'keys', tablefmt = 'pretty'))
 
     # Mean number of thumbs up for each sentiment class of reviews
     meanThumbs = df.groupby(['Sentiment Class'])["Thumbs Up"].agg(["mean"]).sort_values(by="mean", ascending=False)
